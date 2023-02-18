@@ -499,6 +499,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *            name: id
  *            required: true
  *            description: numeric ID required
+ *            schema:
+ *              $ref: "#/components/schemas/likeSchema"
  *    responses:
  *      200:
  *          description: Like added succesfully

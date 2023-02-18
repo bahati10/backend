@@ -62,6 +62,20 @@ describe("Blogs API", () => {
             })
     });
 
+    it("Should not UPDATE message", function (done) {
+
+        chai.request(server)
+            .patch("/api/messsages/63e3fa9bed8523be086b107f").then(response => {
+                response.should.have.status(404);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
     it("can DELETE message if Admin", function (done) {
 
         chai.request(server)

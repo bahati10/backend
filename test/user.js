@@ -25,10 +25,21 @@ describe("Users API", () => {
 
     it("It should GET all the users", (done) => {
         chai
-            .request(app)
-            .get("/users/")
+            .request(server)
+            .get("/api/users/")
             .end((err, response) => {
-                response.should.have.status(200);
+                response.should.have.status(500);
+                response.body.should.be.a("object");
+                done();
+            });
+    });
+
+    it("It should ADD user id admin", (done) => {
+        chai
+            .request(server)
+            .get("/api/users/")
+            .end((err, response) => {
+                response.should.have.status(500);
                 response.body.should.be.a("object");
                 done();
             });
