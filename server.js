@@ -476,7 +476,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *            required: true
  *            description: numeric ID required
  *            schema:
- *              $ref: "#/components/schemas/commentSchema"
+ *               $ref: "#/components/schemas/commentSchema"
  *    responses:
  *      200:
  *          description: Comment added succesfully
@@ -595,7 +595,7 @@ mongoose.set('strictQuery', false)
     .then(() => {
         console.log("connected to DB")
     }).catch((err) => console.log("Error, couldn't connect to db", err))
-app.get("/", (req, res) => {
+app.get("/api/home", (req, res) => {
     res.status(200).json({ msg: "Welcome home" })
 })
 

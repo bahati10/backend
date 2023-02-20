@@ -16,6 +16,7 @@ const MessageController = require("../controllers/messageController")
 const UserController = require("../controllers/userController")
 const BlogController = require("../controllers/blogController")
 const CommentController = require("../controllers/commentController")
+const LikeController = require("../controllers/likeController")
 const AdminController = require("../controllers/adminController");
 const AuthController = require("../controllers/authController");
 const PublicController = require("../controllers/publicController");
@@ -192,7 +193,7 @@ router.post("/comments/:id", PublicAuthMiddleware.checkAuthentication, async (re
 
 // LIKES //
 
-
+router.delete("/comments/:id", AuthMiddleware.checkAuthenticationStatus, LikeController.deleteSingle)
 router.post("/likes/:id", PublicAuthMiddleware.checkAuthentication, async (req, res) => {
     try {
         const addedDate = new Date();
