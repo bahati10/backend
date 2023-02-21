@@ -595,15 +595,14 @@ app.use(express.json())
 app.use("/api", routes)
 
 
-app.listen(port, () => {
-    console.log("Server is listening on port", port)
-})
 
 
 mongoose.set('strictQuery', false)
     .connect(process.env.MONGO_URL, { useNewUrlParser: true })
     .then(() => {
-        console.log("connected to DB")
+        app.listen(port, () => {
+            console.log("Server is listening on port", port)
+        });
     }).catch((err) => console.log("Error, couldn't connect to db", err))
 app.get("/api/home", (req, res) => {
     res.status(200).json({ msg: "Welcome home" })
