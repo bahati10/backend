@@ -4,6 +4,7 @@ let chaiHttp = require("chai-http");
 let server = require("../server");
 const { expect } = require("chai");
 const { response } = require("../server");
+const likeController = require("../controllers/likeController");
 chai.use(chaiHttp);
 
 //ASSERTION
@@ -557,7 +558,7 @@ describe("Admin API", () => {
 
         it("Should UPDATE user", function (done) {
             chai.request(server)
-                .patch("/api/users/63f3353aedee7c82a48d56c6")
+                .patch("/api/users/63f3aaf7e474e3d8b5595f95")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -595,7 +596,7 @@ describe("Admin API", () => {
         it("Should GET single Message", function (done) {
 
             chai.request(server)
-                .get("/api/messages/63f31d84d6d3a9fe2147a2f5")
+                .get("/api/messages/63f3a8e7cd5a9eb3108a601a")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -645,7 +646,7 @@ describe("Visitor's API", () => {
 
     let publicUser = {
         email: "bahati@gmail.com",
-        password: "BAHATI"
+        password: "BAHATI123"
     };
 
     let pToken;
@@ -699,7 +700,7 @@ describe("Visitor's API", () => {
 
     let publicUser = {
         email: "bahati@gmail.com",
-        password: "BAHATI"
+        password: "BAHATI123"
     };
 
     let pToken;
@@ -917,7 +918,6 @@ describe("Visitor's API", () => {
 
 
 })
-
 
 
 

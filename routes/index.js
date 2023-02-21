@@ -65,7 +65,7 @@ router.post("/messages", async (req, res) => {
         const addedDate = new Date();
 
         if (!email || !name || !message) {
-            res.status(400).json({ msg: "Please add all required inputs", error: "" })
+            return res.status(400).json({ msg: "Please add all required inputs", error: "" })
         }
         const _message = new Message({
             name,

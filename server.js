@@ -1,4 +1,5 @@
 const express = require("express")
+const cors = require("cors")
 const mongoose = require("mongoose")
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt")
@@ -7,6 +8,7 @@ const app = express();
 const dotenv = require("dotenv");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const { application } = require("express");
 const options = {
     definition: {
         openapi: "3.0.0",
@@ -224,8 +226,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  * @swagger
  * /messages:
  *  post:
- *    security:
- *      - bearerAuth: []
  *    summary: ADD A MESSAGE
  *    description: ADD A MESSAGE
  *    requestBody:
@@ -318,17 +318,17 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  */
 
 
- /**
- * @swagger
- * /users:
- *  get:
- *    security:
- *      - bearerAuth: []
- *    summary: RETRIEVE USERS LIST
- *    description: RETRIEVE USERS LIST
- *    responses:
- *          200:
- *              description: To test Get method
+/**
+* @swagger
+* /users:
+*  get:
+*    security:
+*      - bearerAuth: []
+*    summary: RETRIEVE USERS LIST
+*    description: RETRIEVE USERS LIST
+*    responses:
+*          200:
+*              description: To test Get method
 */
 
 /**
@@ -579,11 +579,21 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 
+
+app.use(
+    cors({
+        origin: "*",
+        credentials: true,
+        
+    })
+)
+
 dotenv.config();
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
 app.use("/api", routes)
+
 
 app.listen(port, () => {
     console.log("Server is listening on port", port)
