@@ -103,9 +103,9 @@ router.post("/users", async (req, res) => {
         const doesExist = await User.findOne({ email });
 
         if (!email || !names || !password) {
-            res.status(400).json({ msg: "Please add all required inputs", error: "" })
+            return res.status(400).json({ msg: "Please add all required inputs", error: "" })
         } else if (doesExist) {
-            res.status(400).json({ msg: "Email already exists", error: "" })
+            return res.status(400).json({ msg: "Email already exists", error: "" })
         } else {
 
             const _user = new User({
@@ -118,7 +118,7 @@ router.post("/users", async (req, res) => {
             return res.status(201).json({ msg: "Signed Up successfully", data: _user })
         }
     } catch (error) {
-        throw new Error(error)
+        return res.status(500).json({msg: "Something went wrong"})
     }
 })
 

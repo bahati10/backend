@@ -596,7 +596,7 @@ describe("Admin API", () => {
         it("Should GET single Message", function (done) {
 
             chai.request(server)
-                .get("/api/messages/63f3a8e7cd5a9eb3108a601a")
+                .get("/api/messages/63f3ba2c1f0f8f3b027fa046")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);

@@ -18,7 +18,7 @@ class PublicController {
 
             const isValid = await bcrypt.compare(password, doesExist.password);
             if(!isValid){
-                return res.status(400).json({error:"Invalid password"})
+                return res.status(400).json({msg:"Invalid password"})
             }
         
             const token = jwt.sign({ id: doesExist._id }, process.env.PUBLIC_SECRET,{expiresIn: 3600})
