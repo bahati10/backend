@@ -20,7 +20,8 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.0",
-    "swagger-jsdoc": "^6.2.8"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.1"
   },
   "devDependencies": {
     "chai": "^4.3.7",
