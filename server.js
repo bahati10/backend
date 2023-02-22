@@ -8,6 +8,7 @@ const app = express();
 const dotenv = require("dotenv");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const mongoConfig = require("./config/mongo");
 const { application } = require("express");
 const options = {
     definition: {
@@ -596,10 +597,10 @@ app.use("/api", routes)
 
 
 
-
 mongoose.set('strictQuery', false)
-    .connect(process.env.MONGO_URL, { useNewUrlParser: true })
+    .connect(mongoConfig[process.env.NODE_ENV].url, { useNewUrlParser: true })
     .then(() => {
+        console.log(`DB running in ${process.env.NODE_ENV} mode ${mongoConfig[process.env.NODE_ENV].url}`)
         app.listen(port, () => {
             console.log("Server is listening on port", port)
         });
