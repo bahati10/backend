@@ -8,7 +8,7 @@ const app = express();
 const dotenv = require("dotenv");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const mongoConfig = require("./config/mongo");
+const mongoConfig = require("../config/mongo");
 const { application } = require("express");
 const options = {
     definition: {
