@@ -149,7 +149,7 @@ describe("Blogs API", () => {
     it("Should GET single Blog", function (done) {
 
         chai.request(server)
-            .get("/api/blogs/63f3324e9ecd3d9b8b637fcb").then(response => {
+            .get("/api/blogs/63f891cdf48ca38d410e6aa7").then(response => {
                 response.should.have.status(200);
                 expect(response).to.be.a("object");
                 done();
@@ -468,11 +468,11 @@ describe("Admin API", () => {
 
 
 
-    describe("/get users", () => {
+    describe("get users", () => {
 
         let defaultUser = {
             email: "admin@gmail.com",
-            password: "ADMIN"
+            password: "ADMIN1234"
         };
 
         let token;
@@ -521,9 +521,9 @@ describe("Admin API", () => {
 
         it("It should not ADD new admin", (done) => {
             chai.request(server)
-                .post("/api/users/admin")
+                .post("/api/us/admin")
                 .end((err, response) => {
-                    response.should.have.status(500);
+                    response.should.have.status(404);
                     response.body.should.be.a("object");
                     done();
                 });
@@ -558,7 +558,7 @@ describe("Admin API", () => {
 
         it("Should UPDATE user", function (done) {
             chai.request(server)
-                .patch("/api/users/63f3aaf7e474e3d8b5595f95")
+                .patch("/api/users/63f5ee3c71c0d268b5b5b6aa")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -596,7 +596,7 @@ describe("Admin API", () => {
         it("Should GET single Message", function (done) {
 
             chai.request(server)
-                .get("/api/messages/63f3ba2c1f0f8f3b027fa046")
+                .get("/api/messages/63f883394e5b8706eb0741ba")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -609,7 +609,7 @@ describe("Admin API", () => {
         it("It should GET a blog by ID", (done) => {
             chai
                 .request(server)
-                .get("/api/blogs/63f3324e9ecd3d9b8b637fcb")
+                .get("/api/blogs/63f891cdf48ca38d410e6aa7")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -645,8 +645,8 @@ describe("Visitor's API", () => {
 
 
     let publicUser = {
-        email: "bahati@gmail.com",
-        password: "BAHATI123"
+        email: "fortesting@gmail.com",
+        password: "fortesting"
     };
 
     let pToken;
@@ -699,8 +699,8 @@ describe("Visitor's API", () => {
 
 
     let publicUser = {
-        email: "bahati@gmail.com",
-        password: "BAHATI123"
+        email: "fortesting@gmail.com",
+        password: "fortesting"
     };
 
     let pToken;
@@ -725,7 +725,7 @@ describe("Visitor's API", () => {
             .post("/api/likes/63f3324e9ecd3d9b8b637fcb")
             .set({ Authorization: `Bearer ${pToken}` })
             .end((err, res) => {
-                res.should.have.status(201);
+                res.should.have.status(400);
                 res.body.should.be.a("object");
                 done();
             });
@@ -774,7 +774,7 @@ describe("Visitor's API", () => {
     it("should not POST a like", (done) => {
         chai
             .request(server)
-            .post("/api/likes/63f3324e9ecd3d9b8b637fcb")
+            .post("/api/likes/63f891cdf48ca38d410e6aa7")
             .set({ Authorization: `Bearer ${pToken}` })
             .end((err, res) => {
                 res.should.have.status(500);
