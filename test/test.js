@@ -117,19 +117,43 @@ describe("Testing Home Page", () => {
 
 
 describe("Blogs API", () => {
+
+        let defaultUser = {
+            email: "admin@gmail.com",
+            password: "ADMIN1234"
+        };
+
+        let token;
+
+
+
+        beforeEach(done => {
+            chai
+                .request(server)
+                .post("/api/blogs")
+                .send(defaultUser)
+                .end((err, res) => {
+                    token = res.body.token;
+                    res.should.have.status(500);
+                    done();
+                });
+        });
+
+
+        
     it("Should not POST new blog if not Admin", function (done) {
 
         chai.request(server)
-            .post("/api/blogs").then(response => {
-                response.should.have.status(500);
-                expect(response).to.be.a("object");
+            .post("/api/blogs")
+            .send(defaultUser)
+            .end((err, res) => {
+                token = res.body.token;
+                res.should.have.status(500);
                 done();
             })
-            .catch((err) => {
+        });
 
-                done(err)
-            })
-    });
+
 
     it("Should GET all Blogs", function (done) {
 
@@ -149,7 +173,7 @@ describe("Blogs API", () => {
     it("Should GET single Blog", function (done) {
 
         chai.request(server)
-            .get("/api/blogs/63f891cdf48ca38d410e6aa7").then(response => {
+            .get("/api/blogs/63f8eb7a7f039c64f4d10975").then(response => {
                 response.should.have.status(200);
                 expect(response).to.be.a("object");
                 done();
@@ -519,6 +543,18 @@ describe("Admin API", () => {
         });
 
 
+        it("It should ADD NEW admin", (done) => {
+            chai
+                .request(server)
+                .post("/api/usersadmin")
+                .set({ Authorization: `Bearer ${token}` })
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                });
+        });
+
+
         it("It should not ADD new admin", (done) => {
             chai.request(server)
                 .post("/api/us/admin")
@@ -609,7 +645,7 @@ describe("Admin API", () => {
         it("It should GET a blog by ID", (done) => {
             chai
                 .request(server)
-                .get("/api/blogs/63f891cdf48ca38d410e6aa7")
+                .get("/api/blogs/63f8eb7a7f039c64f4d10975")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);

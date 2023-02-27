@@ -14,19 +14,44 @@ chai.use(chaiHttp);
 
 
 describe("Blogs API", () => {
-    it("Should not POST new blog if not Admin", function (done) {
 
-        chai.request(server)
-            .post("/api/blogs").then(response => {
-                response.should.have.status(500);
-                expect(response).to.be.a("object");
+
+
+    let defaultUser = {
+        email: "admin@gmail.com",
+        password: "ADMIN1234"
+    };
+
+    let token;
+
+
+
+    beforeEach(done => {
+        chai
+            .request(server)
+            .post("/api/blogs")
+            .send(defaultUser)
+            .end((err, res) => {
+                token = res.body.token;
+                res.should.have.status(500);
                 done();
-            })
-            .catch((err) => {
-
-                done(err)
-            })
+            });
     });
+
+
+
+
+    it("Should POST new blog if not Admin", function (done) {
+        chai.request(server)
+            .post("/api/blogs")
+            .set({ Authorization: `Bearer ${token}` })
+            .end((err, res) => {
+                token = res.body.token;
+                res.should.have.status(500);
+                done();
+            });
+    });
+
 
     it("Should GET all Blogs", function (done) {
 
@@ -120,23 +145,23 @@ describe("Blogs API", () => {
 
     it("It should GET all the users unique", (done) => {
         chai
-          .request(server)
-          .get("/api/users/")
-          .end((err, response) => {
-            response.should.have.status(500);
-            response.body.should.be.a("object");
-            done();
-          });
-      });
+            .request(server)
+            .get("/api/users/")
+            .end((err, response) => {
+                response.should.have.status(500);
+                response.body.should.be.a("object");
+                done();
+            });
+    });
 
-      it("can not login if not Admin", (done) => {
+    it("can not login if not Admin", (done) => {
         chai
-          .request(server)
-          .get("/api/users/login/admin")
-          .end((err, response) => {
-            response.should.have.status(404);
-            response.body.should.be.a("object");
-            done();
-          });
-      });
+            .request(server)
+            .get("/api/users/login/admin")
+            .end((err, response) => {
+                response.should.have.status(404);
+                response.body.should.be.a("object");
+                done();
+            });
+    });
 })
