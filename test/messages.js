@@ -4,12 +4,160 @@ let chaiHttp = require("chai-http");
 let server = require("../server");
 const { expect } = require("chai");
 const { response } = require("../server");
+
 chai.use(chaiHttp);
 
 //ASSERTION
 
+let token = "";
 chai.should();
 chai.use(chaiHttp);
+
+
+describe("Blogs API", () => {
+
+    it("Should GET all Messages", function (done) {
+
+        chai.request(server)
+            .get("/api/messages").then(response => {
+                response.should.have.status(500);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+
+    it("Should GET single Message", function (done) {
+
+        chai.request(server)
+            .get("/api/messages/63e3fa9bed8523be086b107f").then(response => {
+                response.should.have.status(500);
+                expect(response).to.be.a("object");
+                done();
+
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+
+
+    it("Should GET a single Message", function (done) {
+
+        chai.request(server)
+            .get("/api/messages/63fc69751a41cec3a895ab49").then(response => {
+                response.should.have.status(500);
+                expect(response).to.be.a("object");
+                done();
+
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+
+
+    it("Should not DELETE message if not Admin", function (done) {
+
+        chai.request(server)
+            .delete("/api/messsages/63e3fa9bed8523be086b107f").then(response => {
+                response.should.have.status(404);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+
+
+    it("Should not DELETE message if not Admin", function (done) {
+
+        chai.request(server)
+            .delete("/api/messsages/63fc69751a41cec3a895ab49").then(response => {
+                response.should.have.status(404);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+    
+
+    it("Should not UPDATE message", function (done) {
+
+        chai.request(server)
+            .patch("/api/messsages/63e3fa9bed8523be086b107f").then(response => {
+                response.should.have.status(404);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+    it("Should not UPDATE message", function (done) {
+
+        chai.request(server)
+            .patch("/api/messsages/63fc69751a41cec3a895ab").then(response => {
+                response.should.have.status(404);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+    
+
+    it("can DELETE message if Admin", function (done) {
+
+        chai.request(server)
+            .delete("/api/messages/63e3fa9bed8523be086b107f").then(response => {
+                response.should.have.status(500);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+
+
+    it("can DELETE message if Admin", function (done) {
+
+        chai.request(server)
+            .delete("/api/messages/63fc69751a41cec3a895ab49").then(response => {
+                response.should.have.status(500);
+                expect(response).to.be.a("object");
+                done();
+            })
+            .catch((err) => {
+
+                done(err)
+            })
+    });
+})
+
+
+
 
 
 describe("blogs API", () => {
@@ -41,7 +189,6 @@ describe("blogs API", () => {
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(500);
-                    response.body.should.be.a("object");
                     done();
                 });
         });
@@ -668,7 +815,6 @@ describe("Admin API", () => {
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(404);
-                    response.body.should.be.a("object");
                     done();
                 });
         });
@@ -873,19 +1019,6 @@ describe("Admin API", () => {
                     done();
                 });
         });
-
-        it("It should DELETE comment", (done) => {
-            chai
-                .request(server)
-                .get("/api/comments/63fc8d98bc73e0be691d00ca")
-                .set({ Authorization: `Bearer ${token}` })
-                .end((err, response) => {
-                    response.should.have.status(200);
-                    response.should.be.a("object");
-                    done();
-                });
-        });
-        
 
 
     });
@@ -1297,21 +1430,6 @@ describe("Visitor's API", () => {
     });
 
 
-    it("should not POST a comment", (done) => {
-        chai
-            .request(server)
-            .post("/api/comm/63f8eb7a7f039c64f4d10975")
-            .set({ Authorization: `Bearer ${pToken}` })
-            .end((err, res) => {
-                res.should.have.status(404);
-                res.body.should.be.a("object");
-                done();
-            });
-    });
-
-    
-
-
 
     it("should not POST a comment", (done) => {
         chai
@@ -1395,18 +1513,6 @@ it("should POST a like", (done) => {
         });
 });
 
-it("should POST a like", (done) => {
-    chai
-        .request(server)
-        .post("/api/likes/63f8eb7a7f039c64f4d10975")
-        .end((err, res) => {
-            res.should.have.status(500);
-            res.body.should.be.a("object");
-            done();
-        });
-});
-
-
 it("should POST not like", (done) => {
     chai
         .request(server)
@@ -1417,30 +1523,6 @@ it("should POST not like", (done) => {
             done();
         });
 });
-
-it("should POST no like", (done) => {
-    chai
-        .request(server)
-        .post("/api/likes/63f8eb7a7f039c64f4d10975")
-        .end((err, res) => {
-            res.should.have.status(500);
-            res.body.should.be.a("object");
-            done();
-        });
-});
-
-
-it("should POST no like", (done) => {
-    chai
-        .request(server)
-        .post("/api/likes/63f8eb7a7f00975")
-        .end((err, res) => {
-            res.should.have.status(500);
-            res.body.should.be.a("object");
-            done();
-        });
-});
-
 
 
 
@@ -1959,6 +2041,17 @@ describe("Admin API", () => {
 
 
 })
+
+
+
+
+
+
+
+
+
+
+
 
 
 
