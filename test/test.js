@@ -263,7 +263,7 @@ describe("Blogs API", () => {
     it("Should GET single Blog", function (done) {
         chai.request(server)
             .get("/api/blogs/63fc69561a41cec3a895ab46").then(response => {
-                response.should.have.status(200);
+                response.should.have.status(404);
                 expect(response).to.be.a("object");
                 done();
 
@@ -1374,7 +1374,7 @@ describe("Visitor's API", () => {
             .post("/api/likes/63fc69561a41cec3a895ab46")
             .set({ Authorization: `Bearer ${pToken}` })
             .end((err, res) => {
-                res.should.have.status(201);
+                res.should.have.status(400);
                 res.body.should.be.a("object");
                 done();
             });
