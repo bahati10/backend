@@ -54,7 +54,7 @@ describe("BLOGS", () => {
             it("It should GET single Blog", (done) => {
                 chai
                     .request(server)
-                    .get("/api/blogs/63fdc6097d6641e187c02032")
+                    .get("/api/blogs/63fe42370f11d7f5bd9b3441")
                     .end((err, response) => {
                         response.should.have.status(200);
                         response.body.should.be.a("object");
@@ -84,78 +84,6 @@ describe("BLOGS", () => {
                         done();
                     });
             });
-})
-
-
-describe("blog", () => {
-        describe("blogs API", () => {
-    let defaultUser = {
-        email: "admin@gmail.com",
-        password: "ADMIN1234"
-    };
-
-    let token;
-
-
-
-        before(done => {
-        chai
-            .request(server)
-            .post("/api/users/login/admin")
-            .send(defaultUser)
-            .end((err, res) => {
-                token = res.body.token;
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-
-    describe("Blog", () => {
-        it("It should GET single Blog", (done) => {
-            chai
-                .request(server)
-                .get("/api/blogs")
-                .set({ Authorization: `Bearer ${token}` })
-                .end((err, response) => {
-                    response.should.have.status(200);
-                    done();
-                });
-        });
-
-    });
-
-    describe("Blog", () => {
-        it("It should not POST A Blog", (done) => {
-            chai
-                .request(server)
-                .post("/api/blogs")
-                .set({ Authorization: `Bearer ${token}` })
-                .end((err, response) => {
-                    response.should.have.status(400);
-                    done();
-                });
-        });
-
-    });
-
-
-    describe("Blog", () => {
-        it("It should not UPDATE A Blog", (done) => {
-            chai
-                .request(server)
-                .patch("/api/blogs/63fdc6097d6641e187c02032")
-                .set({ Authorization: `Bearer ${token}` })
-                .end((err, response) => {
-                    response.should.have.status(200);
-                    done();
-                });
-        });
-
-    });
-    
-    
-})
 })
 
 
@@ -247,6 +175,11 @@ describe("Users API", () => {
         password: "ADMIN1234"
     };
 
+    let update = {
+        email: "admin@gmail.com",
+        password: "ADMIN1234"
+    };
+
     let token;
 
 
@@ -264,10 +197,10 @@ describe("Users API", () => {
     });
 
 
-            it("It should not GET all users", (done) => {
+            it("It should UPDATE all users", (done) => {
             chai
                 .request(server)
-                .patch("/api/users/63fc96c9acac1ee1415a7eed")
+                .patch("/api/users/63fa293c7f039c64f4d10980")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -278,10 +211,10 @@ describe("Users API", () => {
 
 
 
-        it("It should not GET all users", (done) => {
+        it("It should not GET user", (done) => {
             chai
                 .request(server)
-                .get("/api/users/63fc96c9acac1ee1415a7eed")
+                .get("/api/users/63fa293c7f039c64f4d10980")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -321,7 +254,7 @@ describe("Users TEST", () => {
         it("It should not GET all users", (done) => {
             chai
                 .request(server)
-                .get("/api/users/63fc7b1b1a41cec3a895ab55")
+                .get("/api/users/63fa293c7f039c64f4d10980")
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, response) => {
                     response.should.have.status(200);
@@ -336,12 +269,19 @@ describe("Users TEST", () => {
 describe("Users", () => {
 
 it("It should ADD new user", (done) => {
+
+    let newUser = {
+        names: "Bahati Yves",
+        email: "unknowil@gmail.com",
+        password: "unknownwemail"
+    }
+
     chai
         .request(server)
         .post("/api/users")
+        .send(newUser)
         .end((err, response) => {
-            response.should.have.status(500);
-            response.body.should.be.a("object");
+            response.should.have.status(201);
             done();
         });
 });
@@ -379,6 +319,8 @@ describe("messages API", () => {
                 done();
             });
     });
+
+
 
 
 
@@ -560,6 +502,12 @@ describe("Comment API", () => {
         password: "fortesting"
     };
 
+
+    let cmnt = {
+        comment: "fortesting"
+    };
+
+
     let token;
 
 
@@ -580,10 +528,11 @@ describe("Comment API", () => {
     it("It should add single comment", (done) => {
         chai
             .request(server)
-            .post("/api/comments/63f8eb7a7f039c64f4d10975")
+            .post("/api/comments/63fe425a0f11d7f5bd9b3445")
+            .send(cmnt)
             .set({ Authorization: `Bearer ${token}` })
             .end((err, response) => {
-                response.should.have.status(400);
+                response.should.have.status(201);
                 done();
             });
     });
@@ -635,7 +584,7 @@ describe("Comment API", () => {
     it("It should get single comment", (done) => {
         chai
             .request(server)
-            .get("/api/comments/63fc8d90bc73e0be691d00c6")
+            .get("/api/comments/63fe496a7e7f44f8c55043c6")
             .set({ Authorization: `Bearer ${token}` })
             .end((err, response) => {
                 response.should.have.status(200);
@@ -685,9 +634,6 @@ describe("Comments API", () => {
 })
 
 
-
-
-
 // LIKES
 
 
@@ -719,7 +665,7 @@ describe("Likes API", () => {
         it("It should add single like", (done) => {
         chai
             .request(server)
-            .post("/api/likes/63fdc6097d6641e187c02032")
+            .post("/api/likes/63fe42370f11d7f5bd9b3441")
             .set({ Authorization: `Bearer ${token}` })
             .end((err, response) => {
                 response.should.have.status(201);
@@ -868,6 +814,14 @@ describe("blog cont", () => {
         content: "ADMIN1234"
     };
 
+
+    let updateBlog = {
+        title: "UPDATIONG PERSONAL BLOG",
+        subtitle: "UPDATIONG PERSONAL BLOG",
+        image: "UPDATIONG PERSONAL BLOG",
+        content: "UPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOG"
+    };
+
     let atoken;
 
 
@@ -901,7 +855,7 @@ describe("blog cont", () => {
     it("It should GET single blog", (done) => {
         chai
             .request(server)
-            .get("/api/blogs/63fdc6097d6641e187c02032")
+            .get("/api/blogs/63fe42370f11d7f5bd9b3441")
             .set({ Authorization: `Bearer ${atoken}` })
             .end((err, response) => {
                 response.should.have.status(200);
@@ -913,7 +867,7 @@ describe("blog cont", () => {
     it("GET single blog", (done) => {
         chai
             .request(server)
-            .get("/api/blogs/63fdfce67ec6cfb4ac7de3a8")
+            .get("/api/blogs/63fe42370f11d7f5bd9b3441")
             .set({ Authorization: `Bearer ${atoken}` })
             .end((err, response) => {
                 response.should.have.status(200);
@@ -926,7 +880,8 @@ describe("blog cont", () => {
     it("UPDATE single blog", (done) => {
         chai
             .request(server)
-            .patch("/api/blogs/63fdfce67ec6cfb4ac7de3a8")
+            .patch("/api/blogs/63fe42370f11d7f5bd9b3441")
+            .send(updateBlog)
             .set({ Authorization: `Bearer ${atoken}` })
             .end((err, response) => {
                 response.should.have.status(200);
@@ -939,7 +894,8 @@ describe("blog cont", () => {
     it("It should UPDATE single blog", (done) => {
         chai
             .request(server)
-            .patch("/api/blogs/63fdc6097d6641e187c02032")
+            .patch("/api/blogs/63fe42370f11d7f5bd9b3441")
+            .send(updateBlog)
             .set({ Authorization: `Bearer ${atoken}` })
             .end((err, response) => {
                 response.should.have.status(200);
@@ -969,6 +925,14 @@ describe("users cont", () => {
     let user = {
         email: "admin@gmail.com",
         password: "ADMIN1234"
+    };
+
+
+    let uBlog = {
+        title: "UPDATIONG PERSONAL BLOG",
+        subtitle: "UPDATIONG PERSONAL BLOG",
+        image: "UPDATIONG PERSONAL BLOG",
+        content: "UPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOGUPDATIONG PERSONAL BLOG"
     };
 
     let atoken;
@@ -1004,7 +968,7 @@ describe("users cont", () => {
     it("GET single user", (done) => {
         chai
             .request(server)
-            .get("/api/users/63fc7b301a41cec3a895ab58")
+            .get("/api/users/63fa293c7f039c64f4d10980")
             .set({ Authorization: `Bearer ${atoken}` })
             .end((err, response) => {
                 response.should.have.status(200);
@@ -1065,6 +1029,52 @@ describe("users cont", () => {
             })
             
     });
+
+
+    describe("Blog", () => {
+        it("It should GET single Blog", (done) => {
+            chai
+                .request(server)
+                .get("/api/blogs")
+                .set({ Authorization: `Bearer ${atoken}` })
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    done();
+                });
+        });
+
+    });
+
+    describe("Blog", () => {
+        it("It should not POST A Blog", (done) => {
+            chai
+                .request(server)
+                .post("/api/blogs")
+                .set({ Authorization: `Bearer ${atoken}` })
+                .end((err, response) => {
+                    response.should.have.status(400);
+                    done();
+                });
+        });
+
+    });
+
+
+    describe("Blog", () => {
+        it("It should UPDATE A Blog", (done) => {
+            chai
+                .request(server)
+                .patch("/api/blogs/63fe42370f11d7f5bd9b3441")
+                .send(uBlog)
+                .set({ Authorization: `Bearer ${atoken}` })
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    done();
+                });
+        });
+
+    });
+    
 })
 
 
