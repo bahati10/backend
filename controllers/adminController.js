@@ -12,16 +12,16 @@ class AdminController {
     }
 
 
-    static async deleteAdmin(req, res) {
-        try {
-            const { id } = req.params;
-            const ad = await AdminService.deleteAllAdmins(id);
-            return res.status(200).json({ msg: "Admin deleted successfully" })
+    // static async deleteAdmin(req, res) {
+    //     try {
+    //         const { id } = req.params;
+    //         const ad = await AdminService.deleteSingleAdmin(id);
+    //         return res.status(200).json({ msg: "Admin deleted successfully" })
 
-        } catch (error) {
-            return res.status(400).json({ msg: "Something went wrong", error })
-        }
-    }
+    //     } catch (error) {
+    //         return res.status(400).json({ msg: "Something went wrong", error })
+    //     }
+    // }
 }
 
 module.exports = AdminController;

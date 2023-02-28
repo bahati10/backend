@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt")
 const routes = require("./routes/index")
 const app = express();
-var multer = require('multer')
-var upload = multer();
 const dotenv = require("dotenv");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
@@ -595,7 +593,6 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
-app.use(upload.array()); 
 app.use(express.static('public'));
 app.use("/api", routes)
 

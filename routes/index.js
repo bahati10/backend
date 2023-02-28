@@ -3,8 +3,6 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { model } = require("mongoose")
 const bcrypt = require("bcrypt")
-const multer = require("multer");
-const path = require("path")
 const Message = require("../models/Contact")
 const User = require("../models/User")
 const Blog = require("../models/Blog")
@@ -12,9 +10,7 @@ const Comment = require("../models/Comment")
 const Like = require("../models/Like")
 const Login = require("../models/Login")
 const Admin = require("../models/Admin")
-const Image = require("../models/Upload")
 const AuthMiddleware = require("../middlewares/AuthMiddleware")
-const MulterMiddleware = require("../middlewares/MulterMiddleware")
 const PublicAuthMiddleware = require("../middlewares/authToken")
 const MessageController = require("../controllers/messageController")
 const UserController = require("../controllers/userController")
@@ -25,14 +21,14 @@ const AdminController = require("../controllers/adminController");
 const AuthController = require("../controllers/authController");
 const PublicController = require("../controllers/publicController");
 const { findById } = require("../models/Contact");
-const upload = require("../middlewares/MulterMiddleware");
+const likeController = require("../controllers/likeController");
 const router = new express.Router()
 dotenv.config();
 
 
 
 router.get("/users/admin", AuthMiddleware.checkAuthenticationStatus, AdminController.getAdmin)
-router.delete("/users/admin", AuthMiddleware.checkAuthenticationStatus, AdminController.deleteAdmin)
+// router.delete("/users/admin", AuthMiddleware.checkAuthenticationStatus, AdminController.deleteAdmin)
 router.post("/users/admin", async (req, res) => {
     try {
 
@@ -171,20 +167,6 @@ router.post("/blogs", AuthMiddleware.checkAuthenticationStatus, async (req, res)
 })
 
 
-// router.post("/upload", async (req, res) => {
-//     try {
-//         console.log(req.data);
-//         const images = new Image({
-//         path: req.data.originalname,
-//         created_on: new Date(),
-//         });
-//       await images.save
-//     } catch (error) {
-
-//     }
-// })
-
-
 
 // COMMENTS
 
@@ -225,6 +207,7 @@ router.post("/comments/:id", PublicAuthMiddleware.checkAuthentication, async (re
 // LIKES //
 
 router.delete("/comments/:id", AuthMiddleware.checkAuthenticationStatus, LikeController.deleteSingle)
+router.delete("/likes/:id", AuthMiddleware.checkAuthenticationStatus, likeController.deleteSingle)
 router.post("/likes/:id", PublicAuthMiddleware.checkAuthentication, async (req, res) => {
     try {
         const addedDate = new Date();

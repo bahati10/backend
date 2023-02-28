@@ -12,16 +12,16 @@ class AdminService {
     }
 
     
-    static async deleteAllAdmins(_id) {
-        try {
-            const admin = await Admin.deleteOne({
-                _id
-            })
-            return admin;
-        } catch (error) {
-            throw new Error(error)
-        }
-    }
+    // static async deleteSingleAdmin(_id) {
+    //     try {
+    //         const admin = await Admin.deleteOne({
+    //             _id
+    //         })
+    //         return admin;
+    //     } catch (error) {
+    //         throw new Error(error)
+    //     }
+    // }
 }
 
 
