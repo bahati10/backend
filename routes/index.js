@@ -28,7 +28,7 @@ dotenv.config();
 
 
 router.get("/users/admin", AuthMiddleware.checkAuthenticationStatus, AdminController.getAdmin)
-// router.delete("/users/admin", AuthMiddleware.checkAuthenticationStatus, AdminController.deleteAdmin)
+router.delete("/users/admin", AuthMiddleware.checkAuthenticationStatus, AdminController.deleteAdmin)
 router.post("/users/admin", async (req, res) => {
     try {
 
